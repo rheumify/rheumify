@@ -85,23 +85,33 @@ function App() {
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'High': return 'bg-red-600 text-white';
-      case 'Medium': return 'bg-yellow-600 text-white';
-      case 'Low': return 'bg-green-600 text-white';
-      default: return 'bg-gray-600 text-white';
+      case 'High': return 'bg-pink-200 text-pink-800 border border-pink-300';
+      case 'Medium': return 'bg-amber-200 text-amber-800 border border-amber-300';
+      case 'Low': return 'bg-green-200 text-green-800 border border-green-300';
+      default: return 'bg-gray-200 text-gray-800 border border-gray-300';
+    }
+  };
+
+  const getCategoryColor = (category) => {
+    switch (category) {
+      case 'Drug Approval': return 'bg-purple-200 text-purple-800 border border-purple-300';
+      case 'Research': return 'bg-blue-200 text-blue-800 border border-blue-300';
+      case 'Guidelines': return 'bg-emerald-200 text-emerald-800 border border-emerald-300';
+      case 'Clinical Trial': return 'bg-cyan-200 text-cyan-800 border border-cyan-300';
+      default: return 'bg-lavender-200 text-lavender-800 border border-lavender-300';
     }
   };
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header - Matching rheumify.org exactly */}
+      {/* Header - Matching rheumify.org with pastel accents */}
       <header className="py-8 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-5xl font-bold mb-4">
             Rheumatology News with{' '}
-            <span className="text-purple-500">Rheumify</span>
+            <span className="text-purple-300">Rheumify</span>
           </h1>
-          <p className="text-xl text-gray-300 mb-8">
+          <p className="text-xl text-gray-200 mb-8">
             Curated rheumatology content for medical professionals. 
             Stay updated with the latest research, guidelines, and FDA approvals.
           </p>
@@ -115,7 +125,7 @@ function App() {
                 placeholder="Search articles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-white placeholder-gray-400 text-lg"
+                className="w-full pl-12 pr-4 py-4 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-300 focus:border-purple-300 text-white placeholder-gray-300 text-lg"
               />
             </div>
           </div>
@@ -125,7 +135,7 @@ function App() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-6 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-white"
+              className="px-6 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-300 text-white"
             >
               <option value="">All Categories</option>
               <option value="Drug Approval">Drug Approval</option>
@@ -137,7 +147,7 @@ function App() {
             <select
               value={selectedSource}
               onChange={(e) => setSelectedSource(e.target.value)}
-              className="px-6 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:ring-2 focus:ring-purple-500 text-white"
+              className="px-6 py-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-300 text-white"
             >
               <option value="">All Sources</option>
               <option value="FDA">FDA</option>
@@ -147,7 +157,7 @@ function App() {
 
             <button
               onClick={() => window.location.reload()}
-              className="flex items-center space-x-2 px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors"
+              className="flex items-center space-x-2 px-6 py-3 bg-purple-300 hover:bg-purple-400 text-purple-900 rounded-lg transition-colors font-medium"
             >
               <RefreshCw className="h-4 w-4" />
               <span>Refresh</span>
@@ -160,8 +170,8 @@ function App() {
       <main className="max-w-4xl mx-auto px-4 pb-16">
         {loading ? (
           <div className="text-center py-16">
-            <RefreshCw className="h-8 w-8 animate-spin text-purple-500 mx-auto mb-4" />
-            <p className="text-gray-300 text-lg">Loading articles...</p>
+            <RefreshCw className="h-8 w-8 animate-spin text-purple-300 mx-auto mb-4" />
+            <p className="text-gray-200 text-lg">Loading articles...</p>
           </div>
         ) : (
           <>
@@ -169,27 +179,27 @@ function App() {
               <h2 className="text-2xl font-bold text-white mb-2">
                 {filteredArticles.length} Articles Found
               </h2>
-              <p className="text-gray-300">Latest rheumatology news and research</p>
+              <p className="text-gray-200">Latest rheumatology news and research</p>
             </div>
 
             <div className="space-y-8">
               {filteredArticles.map(article => (
-                <article key={article.id} className="bg-gray-900 p-8 rounded-lg border border-gray-800">
+                <article key={article.id} className="bg-gray-800 p-8 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors">
                   {/* Article Header */}
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center space-x-4">
                       <span className={`px-3 py-1 text-sm rounded-full ${getPriorityColor(article.priority)}`}>
                         {article.priority}
                       </span>
-                      <span className="px-3 py-1 text-sm bg-purple-600 text-white rounded-full">
+                      <span className={`px-3 py-1 text-sm rounded-full ${getCategoryColor(article.category)}`}>
                         {article.category}
                       </span>
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-gray-300 text-sm bg-gray-700 px-3 py-1 rounded-full border border-gray-600">
                         {article.source}
                       </span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <span className="flex items-center space-x-1 text-purple-500">
+                      <span className="flex items-center space-x-1 text-purple-300">
                         <TrendingUp className="h-4 w-4" />
                         <span className="text-sm">{article.relevanceScore}%</span>
                       </span>
@@ -198,7 +208,7 @@ function App() {
                           href={article.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-purple-500 hover:text-purple-400 transition-colors"
+                          className="text-purple-300 hover:text-purple-200 transition-colors"
                         >
                           <ExternalLink className="h-5 w-5" />
                         </a>
@@ -211,17 +221,17 @@ function App() {
                     {article.title}
                   </h3>
 
-                  <p className="text-gray-300 text-lg leading-relaxed mb-6">
+                  <p className="text-gray-200 text-lg leading-relaxed mb-6">
                     {article.summary}
                   </p>
 
                   {/* Article Footer */}
-                  <div className="flex items-center justify-between pt-6 border-t border-gray-800">
-                    <div className="flex items-center space-x-1 text-gray-400">
+                  <div className="flex items-center justify-between pt-6 border-t border-gray-700">
+                    <div className="flex items-center space-x-1 text-gray-300">
                       <Clock className="h-4 w-4" />
                       <span className="text-sm">Published {article.publishedDate}</span>
                     </div>
-                    <div className="text-gray-400 text-sm">
+                    <div className="text-gray-300 text-sm">
                       {article.keywords}
                     </div>
                   </div>
@@ -232,7 +242,7 @@ function App() {
             {filteredArticles.length === 0 && (
               <div className="text-center py-16">
                 <h3 className="text-2xl font-bold text-white mb-4">No articles found</h3>
-                <p className="text-gray-300 text-lg">Try adjusting your search terms or filters.</p>
+                <p className="text-gray-200 text-lg">Try adjusting your search terms or filters.</p>
               </div>
             )}
           </>
@@ -242,13 +252,13 @@ function App() {
       {/* Footer - Simple like rheumify.org */}
       <footer className="py-12 px-4 border-t border-gray-800">
         <div className="max-w-4xl mx-auto text-center">
-          <p className="text-gray-400">
+          <p className="text-gray-300">
             Powered by{' '}
             <a 
               href="https://rheumify.org" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-purple-500 hover:text-purple-400 transition-colors"
+              className="text-purple-300 hover:text-purple-200 transition-colors"
             >
               Rheumify
             </a>
