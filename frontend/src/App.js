@@ -1,3 +1,4 @@
+// Updated dark theme - force deploy
 import React, { useState, useEffect } from 'react';
 import { Search, ExternalLink, RefreshCw, TrendingUp, Clock } from 'lucide-react';
 
